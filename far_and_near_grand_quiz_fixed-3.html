@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Far and Near | Measurement Challenge</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:#eef5ff;color:#18324a}
+.wrap{max-width:900px;margin:auto;padding:16px}.hero{color:#fff;text-align:center;border-radius:28px;padding:24px 16px 30px;background:linear-gradient(135deg,#102a63,#1769aa,#6842a6);overflow:hidden;box-shadow:0 12px 30px #0003}
+.icons{font-size:48px;letter-spacing:14px;margin:5px}.tag{display:inline-block;padding:7px 14px;border-radius:30px;background:#ffffff20;border:1px solid #ffffff55;font-size:13px}
+h1{font-size:clamp(42px,10vw,72px);margin:8px 0;text-shadow:0 4px 10px #0005;letter-spacing:3px}h1 span{color:#ffd84d}
+.subtitle{font-size:20px;font-weight:bold}.pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:15px}.pills span{padding:7px 12px;border-radius:20px;background:#ffffff18;border:1px solid #ffffff40}
+.mission{display:inline-block;background:#ffd84d;color:#342500;padding:10px 18px;border-radius:30px;font-weight:bold}
+.card{background:#fff;border-radius:20px;padding:20px;margin-top:16px;box-shadow:0 7px 22px #00000012}.center{text-align:center}
+.level{display:flex;align-items:center;gap:12px;padding:12px;margin:9px 0;border:1px solid #dce6f1;border-radius:14px}.level b{font-size:18px}
+input{width:100%;padding:13px;border:2px solid #dbe5ef;border-radius:12px;font-size:16px}button{border:0;border-radius:12px;padding:13px 19px;font-size:16px;font-weight:bold;background:#1769aa;color:#fff;cursor:pointer;margin-top:10px}button:hover{filter:brightness(1.08)}button:disabled{cursor:not-allowed}
+.badge{display:inline-block;background:#ffe08a;padding:7px 13px;border-radius:20px;font-weight:bold}.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.progress{height:10px;background:#e6edf5;border-radius:10px;margin:14px 0;overflow:hidden}.bar{height:100%;width:0;background:#1769aa;transition:.3s}.q{font-size:21px;font-weight:bold;margin:14px 0}.opt{display:block;width:100%;text-align:left;background:#f7fbff;color:#18324a;border:2px solid #dbe5ef;margin:9px 0}.correct{background:#ddf5e5!important;border-color:#2ca653!important}.wrong{background:#ffe1e1!important;border-color:#d33!important}.feedback{min-height:25px;font-size:15px;color:#536b80}.score{font-size:48px;font-weight:bold}.hidden{display:none}.small{color:#60758a;font-size:14px}table{width:100%;border-collapse:collapse;margin:14px 0}th,td{border:1px solid #dbe5ef;padding:9px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+<div class="icons">📏 📐 🛣️ 🌍</div>
+<div class="tag">✨ MATHEMATICS • CHAPTER 5 ✨</div>
+<h1>FAR <span>&amp;</span> NEAR</h1>
+<div class="subtitle">माप की रोमांचक दुनिया में आपका स्वागत है!</div>
+<div class="pills"><span>📏 mm</span><span>📐 cm</span><span>📏 m</span><span>🛣️ km</span></div>
+<div class="mission">🏆 THE MEASUREMENT CHALLENGE 🏆</div>
+</section>
+
+<div class="card center" id="start">
+<h2>🚀 Quiz Mission शुरू करें!</h2>
+<p>क्या आप माप की इकाइयों, रूपांतरण, तुलना और गणना में महारत हासिल कर सकते हैं?</p>
+<div class="level"><span>🟢</span><div><b>Level 1 – Easy</b><br><span class="small">Units &amp; Basics</span></div></div>
+<div class="level"><span>🟡</span><div><b>Level 2 – Think</b><br><span class="small">Compare &amp; Reason</span></div></div>
+<div class="level"><span>🔵</span><div><b>Level 3 – Practice</b><br><span class="small">Calculate &amp; Convert</span></div></div>
+<div class="level"><span>🔴</span><div><b>Level 4 – Challenge</b><br><span class="small">Real-life Problems</span></div></div>
+<input id="name" placeholder="अपना नाम लिखें">
+<button onclick="start()">🚀 ENTER THE QUIZ</button>
+<p class="small">20 Questions • 4 Levels • Instant Result</p>
+</div>
+
+<div class="card hidden" id="quiz">
+<div class="top"><span class="badge" id="lv"></span><span id="count"></span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div style="font-size:28px">🧭 📏 🔎</div>
+<div class="q" id="q"></div>
+<div id="opts"></div>
+<div class="feedback" id="fb"></div>
+<button id="next" class="hidden" onclick="next()">अगला प्रश्न ➜</button>
+</div>
+
+<div class="card center hidden" id="result">
+<div style="font-size:52px">🏆✨🎉</div><h2>Quiz Complete!</h2>
+<p id="rname"></p><div class="score" id="score"></div>
+<h3 id="remark"></h3>
+<table><tr><th>Level</th><th>Score</th></tr>
+<tr><td>🟢 Level 1</td><td id="s1"></td></tr>
+<tr><td>🟡 Level 2</td><td id="s2"></td></tr>
+<tr><td>🔵 Level 3</td><td id="s3"></td></tr>
+<tr><td>🔴 Level 4</td><td id="s4"></td></tr></table>
+<button onclick="location.reload()">🔄 फिर से खेलें</button>
+</div>
+</div>
+
+<script>
+const qs=[
+[1,"1 metre में कितने centimetres होते हैं?",["10 cm","100 cm","1,000 cm","50 cm"],1,"1 m = 100 cm"],
+[1,"1 kilometre में कितने metres होते हैं?",["100 m","10 m","1,000 m","10,000 m"],2,"1 km = 1,000 m"],
+[1,"1 centimetre में कितने millimetres होते हैं?",["2 mm","5 mm","10 mm","100 mm"],2,"1 cm = 10 mm"],
+[1,"250 cm किसके बराबर है?",["2 m 50 cm","25 m","250 m","2 m 5 cm"],0,"250 cm = 2 m 50 cm"],
+[1,"बहुत लंबी दूरी के लिए कौन-सी इकाई उपयोगी है?",["mm","cm","m","km"],3,"Kilometre long distances के लिए उपयोगी है।"],
+
+[2,"456 cm और 5 m में कौन बड़ा है?",["456 cm","5 m","दोनों बराबर","कहा नहीं जा सकता"],1,"5 m = 500 cm"],
+[2,"6 m 5 cm और 6 m 50 cm में कौन बड़ा है?",["6 m 5 cm","6 m 50 cm","दोनों बराबर","6 m"],1,"50 cm, 5 cm से बड़ा है।"],
+[2,"55 cm + 200 cm और 200 cm + 54 cm में कौन बड़ा है?",["पहला","दूसरा","दोनों बराबर","कोई नहीं"],0,"255 cm > 254 cm"],
+[2,"238 cm और 138 cm + 1 m का संबंध क्या है?",["पहला बड़ा","दूसरा बड़ा","दोनों बराबर","निर्धारित नहीं"],2,"138 cm + 100 cm = 238 cm"],
+[2,"11 mm और 1 cm में बड़ा कौन है?",["11 mm","1 cm","दोनों बराबर","कोई नहीं"],0,"1 cm = 10 mm"],
+
+[3,"3 km 450 m + 4 km 650 m = ?",["7 km 100 m","8 km 100 m","8 km 10 m","7 km 1,100 m"],1,"450 m + 650 m = 1,100 m; कुल 8 km 100 m"],
+[3,"63 m में से 16 m 75 cm घटाने पर कितना बचेगा?",["46 m 25 cm","47 m 25 cm","45 m 75 cm","46 m 75 cm"],0,"परिणाम 46 m 25 cm"],
+[3,"89 mm को cm और mm में लिखें।",["8 cm 9 mm","9 cm 8 mm","89 cm","8 cm 90 mm"],0,"89 mm = 8 cm 9 mm"],
+[3,"234 cm कितने millimetres होंगे?",["2,340 mm","234 mm","23,400 mm","2,304 mm"],0,"234 × 10 = 2,340 mm"],
+[3,"6 m 34 cm = कितने cm?",["634 cm","604 cm","6,034 cm","640 cm"],0,"6 m = 600 cm; 600 + 34 = 634 cm"],
+
+[4,"1 m 80 cm कपड़ा एक shirt के लिए चाहिए। 20 shirts के लिए कितना कपड़ा?",["18 m","36 m","38 m","30 m"],1,"20 × 1 m 80 cm = 36 m"],
+[4,"397 m = कितने cm?",["3,970 cm","39,700 cm","397,000 cm","3,907 cm"],1,"397 × 100 = 39,700 cm"],
+[4,"12 km 600 m road को 6 बराबर दिनों में पूरा करना है। प्रतिदिन कितना?",["2 km 100 m","2 km 600 m","1 km 600 m","3 km 100 m"],0,"12,600 m ÷ 6 = 2,100 m = 2 km 100 m"],
+[4,"Dibrugarh से Kanniyakumari 4,187 km और Guwahati 556 km पर है। Guwahati से Kanniyakumari कितनी दूरी?",["3,531 km","3,631 km","4,743 km","3,631 m"],1,"4,187 − 556 = 3,631 km"],
+[4,"Gulmarg Gondola के sections 2 km 300 m और 2 km 650 m हैं। कुल दूरी?",["4 km 850 m","5 km 50 m","4 km 950 m","5 km 150 m"],2,"300 m + 650 m = 950 m; कुल 4 km 950 m"]
+];
+
+let i=0,total=0,ls=[0,0,0,0],locked=false;
+function start(){
+ if(!document.getElementById("name").value.trim()){alert("कृपया अपना नाम लिखें।");return}
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("quiz").classList.remove("hidden");
+ show();
+}
+function show(){
+ locked=false;let x=qs[i];
+ document.getElementById("lv").textContent="Level "+x[0]+(x[0]==1?" – Easy":x[0]==2?" – Think":x[0]==3?" – Practice":" – Challenge");
+ document.getElementById("count").textContent="Question "+(i+1)+" / "+qs.length;
+ document.getElementById("bar").style.width=(i/qs.length*100)+"%";
+ document.getElementById("q").textContent=x[1];
+ document.getElementById("fb").textContent="";
+ document.getElementById("next").classList.add("hidden");
+ let box=document.getElementById("opts");box.innerHTML="";
+ x[2].forEach((v,k)=>{let b=document.createElement("button");b.className="opt";b.textContent=v;b.onclick=()=>answer(k,b);box.appendChild(b)});
+}
+function answer(k,b){
+ if(locked)return;locked=true;let x=qs[i];
+ document.querySelectorAll(".opt").forEach((z,j)=>{z.disabled=true;if(j==x[3])z.classList.add("correct")});
+ if(k==x[3]){total++;ls[x[0]-1]++;b.classList.add("correct");document.getElementById("fb").textContent="✅ सही! "+x[4]}
+ else{b.classList.add("wrong");document.getElementById("fb").textContent="❌ सही उत्तर: "+x[2][x[3]]+" — "+x[4]}
+ document.getElementById("next").classList.remove("hidden");
+ document.getElementById("bar").style.width=((i+1)/qs.length*100)+"%";
+}
+function next(){i++;if(i<qs.length)show();else finish()}
+function finish(){
+ document.getElementById("quiz").classList.add("hidden");document.getElementById("result").classList.remove("hidden");
+ document.getElementById("rname").textContent="विद्यार्थी: "+document.getElementById("name").value;
+ document.getElementById("score").textContent=total+" / 20";
+ document.getElementById("s1").textContent=ls[0]+"/5";document.getElementById("s2").textContent=ls[1]+"/5";document.getElementById("s3").textContent=ls[2]+"/5";document.getElementById("s4").textContent=ls[3]+"/5";
+ document.getElementById("remark").textContent=total>=17?"🌟 Outstanding!":total>=13?"👏 Excellent!":total>=9?"👍 Good Attempt!":"💪 Keep Practising!";
+}
+</script>
+</body>
+</html>
