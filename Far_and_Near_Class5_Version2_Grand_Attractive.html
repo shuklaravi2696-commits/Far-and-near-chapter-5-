@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Far & Near — Class 5 Level Based Quiz V2</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef7ff;color:#17324d}
+.hidden{display:none!important}.screen{min-height:100vh}.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,#073b63,#1769aa 52%,#f3c75f)}
+.glow{position:absolute;border-radius:50%;filter:blur(2px);opacity:.22;background:#fff}.g1{width:320px;height:320px;top:-80px;left:-70px}.g2{width:450px;height:450px;right:-130px;bottom:-130px}
+.ring{position:absolute;border:2px solid #ffffff30;border-radius:50%;animation:spin 24s linear infinite}.r1{width:430px;height:430px}.r2{width:700px;height:700px;animation-duration:36s}@keyframes spin{to{transform:rotate(360deg)}}
+.float{position:absolute;font-size:42px;animation:float 5s ease-in-out infinite}.f1{left:8%;top:17%}.f2{right:8%;top:23%;animation-delay:1s}.f3{left:12%;bottom:18%;animation-delay:2s}.f4{right:13%;bottom:15%;animation-delay:3s}@keyframes float{50%{transform:translateY(-15px) rotate(4deg)}}
+.heroCard{position:relative;z-index:2;width:min(820px,92%);padding:38px 25px;border:1px solid #ffffff55;border-radius:30px;text-align:center;color:#fff;background:#ffffff18;backdrop-filter:blur(12px);box-shadow:0 25px 80px #0005}
+.heroArt{font-size:58px;letter-spacing:8px}.title{font-size:clamp(40px,9vw,76px);font-weight:900;line-height:.95;text-shadow:0 5px 18px #0005}.subtitle{font-size:20px;font-weight:bold;letter-spacing:2px}.chips{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin:22px 0}.chip{padding:9px 13px;border-radius:999px;background:#fff2;border:1px solid #fff4}.startBtn{padding:16px 34px;border:0;border-radius:15px;background:#fff;color:#12557e;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 8px 25px #0004}
+.wrap{max-width:900px;margin:auto;padding:16px}.card{background:#fff;border-radius:22px;padding:24px;margin:16px 0;box-shadow:0 7px 25px #0001}h1{text-align:center;color:#14567f}.center{text-align:center}
+input{width:100%;padding:13px;margin:7px 0;border:1px solid #bbb;border-radius:11px;font-size:16px}button{padding:12px 18px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:16px;cursor:pointer}
+.progress{height:11px;background:#ddd;border-radius:20px;overflow:hidden}.bar{height:100%;background:#1769aa;width:0}.qcard{border:2px solid #e1edf6;border-radius:17px;padding:16px}.visual{display:flex;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#f7fbff,#fff9e8);border-radius:15px;padding:12px;margin-bottom:15px;min-height:100px}.visual svg{width:115px;height:82px}.visualText{font-weight:bold;color:#37657f}.q{font-size:20px;font-weight:800;line-height:1.45}.opt{padding:14px;margin:9px 0;border:1px solid #ccd8e1;border-radius:12px;cursor:pointer}.opt:hover{background:#f0f8ff}.correct{background:#dff5e5!important;border-color:#43a66b!important}.wrong{background:#ffe2e2!important;border-color:#d45d5d!important}
+.level{display:inline-block;padding:7px 12px;border-radius:999px;font-weight:bold;background:#eef7ff}.feedback{font-weight:bold;margin:12px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;border-radius:13px;background:#f5f8fb;text-align:center}.score{text-align:center;font-size:34px;font-weight:900}.small{font-size:13px;color:#667}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.card{padding:18px}.q{font-size:18px}.heroCard{padding:28px 18px}}
+</style>
+</head>
+<body>
+
+<section class="screen hero" id="opening">
+<div class="glow g1"></div><div class="glow g2"></div><div class="ring r1"></div><div class="ring r2"></div>
+<div class="float f1">📏</div><div class="float f2">🗺️</div><div class="float f3">🚆</div><div class="float f4">🏃</div>
+<div class="heroCard">
+<div class="heroArt">📏 📐 🔎</div>
+<div class="title">FAR & NEAR</div>
+<div class="subtitle">CLASS 5 MATHEMATICS • CHAPTER 5</div>
+<p>🌟 Measure • Convert • Compare • Calculate • Challenge 🌟</p>
+<div class="chips"><span class="chip">🟢 Level 1 Basic</span><span class="chip">🟡 Level 2 Apply</span><span class="chip">🟠 Level 3 Reason</span><span class="chip">🔴 Level 4 HOTS</span></div>
+<p>20 chapter-based questions • Instant feedback • Level-wise score</p>
+<button class="startBtn" onclick="showEntry()">START QUIZ 🚀</button>
+</div></section>
+
+<div class="wrap">
+<section class="card hidden" id="entry">
+<h1>👋 Welcome, Young Mathematician!</h1><p class="center">Enter your details to begin your challenge.</p>
+<input id="name" placeholder="Student Name *"><input id="cls" placeholder="Class / Section (e.g. 5A)">
+<div class="center"><button onclick="startQuiz()">Begin Level 1 🚀</button></div>
+</section>
+
+<section class="card hidden" id="quiz">
+<div class="level" id="level"></div> <span id="counter"></span>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="qcard"><div class="visual" id="visual"></div><div class="q" id="question"></div><div id="options"></div></div>
+<div class="feedback" id="feedback"></div>
+<button class="hidden" id="next" onclick="nextQ()">Next Question →</button>
+</section>
+
+<section class="card hidden" id="result">
+<h1>🏆 Amazing! Quiz Completed!</h1><p class="center" id="student"></p><div class="score" id="score"></div>
+<p class="center" id="grade"></p><div class="grid">
+<div class="stat">🟢 Level 1<br><b id="l1"></b>/5</div><div class="stat">🟡 Level 2<br><b id="l2"></b>/5</div>
+<div class="stat">🟠 Level 3<br><b id="l3"></b>/5</div><div class="stat">🔴 Level 4<br><b id="l4"></b>/5</div>
+</div><br><div class="center"><button onclick="saveResult()">📄 Save Result</button> <button onclick="location.reload()">🔄 Try Again</button></div>
+<p class="small center">Keep learning and measuring the world around you! 🌍</p>
+</section>
+</div>
+
+<script>
+const Q=[
+{l:1,q:"Which unit is most suitable for measuring the length of a pencil?",o:["km","m","cm","mm"],a:2,v:"ruler"},
+{l:1,q:"10 mm is equal to:",o:["1 cm","10 cm","1 m","100 cm"],a:0,v:"mm"},
+{l:1,q:"100 cm is equal to:",o:["10 m","1 m","100 m","1 km"],a:1,v:"m"},
+{l:1,q:"1,000 m is equal to:",o:["10 km","100 km","1 km","1 cm"],a:2,v:"km"},
+{l:1,q:"Which is longer?",o:["11 mm","1 cm","Both are equal","Cannot say"],a:0,v:"compare"},
+{l:2,q:"4 cm 5 mm = ____ mm",o:["45 mm","405 mm","9 mm","40 mm"],a:0,v:"convert"},
+{l:2,q:"89 mm = ____",o:["8 cm 9 mm","9 cm 8 mm","89 cm","8 cm 0 mm"],a:0,v:"convert"},
+{l:2,q:"6 m 34 cm = ____ cm",o:["634 cm","604 cm","6,340 cm","64 cm"],a:0,v:"convert"},
+{l:2,q:"20 cm and 201 mm: which is greater?",o:["20 cm","201 mm","Both equal","Cannot compare"],a:1,v:"compare"},
+{l:2,q:"1,020 mm and 1 m: the difference is:",o:["2 mm","20 mm","120 mm","1 mm"],a:0,v:"difference"},
+{l:3,q:"Saji walked 3 km 450 m in the morning and 4 km 650 m in the evening. Total distance?",o:["7 km 100 m","8 km 100 m","8 km 10 m","7 km 900 m"],a:1,v:"walk"},
+{l:3,q:"63 m of cable is available. 16 m 75 cm is used. How much remains?",o:["46 m 25 cm","47 m 25 cm","45 m 75 cm","46 m 75 cm"],a:0,v:"cable"},
+{l:3,q:"A ribbon roll is 3 m 75 cm and another is 2 m 25 cm. Total ribbon?",o:["5 m","6 m","5 m 50 cm","6 m 25 cm"],a:1,v:"ribbon"},
+{l:3,q:"A cable car covers 2 km 300 m and then 2 km 650 m. Total?",o:["4 km 850 m","5 km 50 m","4 km 950 m","5 km 150 m"],a:0,v:"cablecar"},
+{l:3,q:"A shirt needs 1 m 80 cm cloth. How much for 20 shirts?",o:["20 m 80 cm","36 m","38 m","30 m 60 cm"],a:1,v:"shirt"},
+{l:4,q:"A road 12 km 600 m long is completed equally in 6 days. Work per day?",o:["2 km 60 m","2 km 100 m","2 km 600 m","1 km 600 m"],a:0,v:"road"},
+{l:4,q:"Cloth costs ₹100 for 5 m. What is the cost of 12 m?",o:["₹200","₹220","₹240","₹250"],a:2,v:"money"},
+{l:4,q:"Bhopal to Sanchi is 48 km 700 m. A waterfall is 17 km 900 m from Bhopal on the way. Sanchi is how far from the waterfall?",o:["30 km 800 m","31 km 800 m","29 km 900 m","32 km 700 m"],a:0,v:"map"},
+{l:4,q:"Which difference is greater: 5,678 m vs 6 km OR 6 km 1,480 m vs 7 km 479 m?",o:["First pair","Second pair","Both equal","Cannot determine"],a:1,v:"compare"},
+{l:4,q:"An embroidery thread is 1 m for a 50 cm sari border. How much thread for a 5 m border?",o:["5 m","10 m","15 m","2 m 50 cm"],a:1,v:"thread"}
+];
+
+let i=0,score=0,lev=[0,0,0,0],answered=false;
+function showEntry(){opening.classList.add("hidden");entry.classList.remove("hidden")}
+function startQuiz(){if(!name.value.trim()){alert("Please enter student name.");return}entry.classList.add("hidden");quiz.classList.remove("hidden");showQ()}
+function showQ(){
+ answered=false;let x=Q[i],n=["","Basic","Application","Reasoning","HOTS / Challenge"][x.l],ic=["","🟢","🟡","🟠","🔴"][x.l];
+ level.textContent=ic+" Level "+x.l+" • "+n;counter.textContent="  Question "+(i+1)+" of "+Q.length;bar.style.width=(i/Q.length*100)+"%";question.textContent=x.q;
+ visual.innerHTML=art(x.v);
+ options.innerHTML=x.o.map((z,k)=>`<div class="opt" onclick="answer(${k})">${z}</div>`).join("");feedback.textContent="";next.classList.add("hidden")
+}
+function art(t){
+ const svg=`<svg viewBox="0 0 180 100" aria-hidden="true"><rect x="8" y="38" width="164" height="24" rx="5" fill="#f3c75f"/><path d="M20 38v24M40 38v14M60 38v24M80 38v14M100 38v24M120 38v14M140 38v24M160 38v14" stroke="#14567f" stroke-width="2"/><text x="90" y="28" text-anchor="middle" font-size="15" fill="#14567f">MEASURE</text></svg>`;
+ const emoji={ruler:"📏",mm:"🔟 mm",m:"📏 100 cm",km:"🗺️ 1 km",compare:"⚖️",convert:"🔄📏",difference:"➖📏",walk:"🚶‍♂️📍",cable:"🔌📏",ribbon:"🎀",cablecar:"🚡",shirt:"👕",road:"🛣️",money:"🧵💰",map:"🗺️📍",thread:"🧵"}[t]||"📏";
+ return svg+"<span style='font-size:38px'>"+emoji+"</span>";
+}
+function answer(k){if(answered)return;answered=true;let x=Q[i],os=document.querySelectorAll(".opt");if(k===x.a){score++;lev[x.l-1]++;os[k].classList.add("correct");feedback.textContent="✅ Correct! Great thinking!";}else{os[k].classList.add("wrong");os[x.a].classList.add("correct");feedback.textContent="❌ Not quite. Correct answer: "+x.o[x.a]}next.classList.remove("hidden")}
+function nextQ(){i++;if(i<Q.length)showQ();else finish()}
+function finish(){quiz.classList.add("hidden");result.classList.remove("hidden");let p=Math.round(score/20*100);student.innerHTML="<b>"+name.value+"</b>"+(cls.value?" • "+cls.value:"");scoreEl=p;scoreText(score,p);l1.textContent=lev[0];l2.textContent=lev[1];l3.textContent=lev[2];l4.textContent=lev[3];}
+function scoreText(s,p){document.getElementById("score").textContent=s+"/20 • "+p+"%";grade.textContent=p>=80?"🌟 Excellent!":p>=60?"👍 Very Good!":p>=40?"💪 Keep Practising!":"📚 More Practice Needed!"}
+function saveResult(){let p=Math.round(score/20*100),txt=`Far & Near — Class 5 Quiz V2\nStudent: ${name.value}\nClass: ${cls.value}\nScore: ${score}/20\nPercentage: ${p}%\nLevel 1: ${lev[0]}/5\nLevel 2: ${lev[1]}/5\nLevel 3: ${lev[2]}/5\nLevel 4: ${lev[3]}/5`;let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/plain"}));a.download="Far_and_Near_Result.txt";a.click()}
+</script>
+</body></html>
